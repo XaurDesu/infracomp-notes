@@ -13,7 +13,10 @@ In computer science, a semaphore is a variable or abstract data type used to con
 
 https://www.baeldung.com/java-semaphore
 
-- Barriers
+### Barriers
+
+
+
 - Processes
 - Monitors
 - Events
