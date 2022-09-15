@@ -1,6 +1,17 @@
 ### Explique la diferencia entre ejecutar un yield y ejecutar un wait en términos de los estados por los que pasa un proceso que los usa. ¿En qué casos es recomendable usar cada uno?
 
-
+Un yield permite indicarle al procesador que el thread no esta haciendo
+nada especificamente importante, y deja a discreción del sistema operativo 
+el uso del espacio de procesamiento. En cambio, wait nos permite pedirle al
+thread esperar a un estimulo especifico para avanzar en la ejecución, pausandolo
+mientras una condición especifica se cumpla en forma de espera pasiva. El uso de
+ambas herramientas suele ser situacional, y depender en términos especificos de las 
+condiciones del programa. En general, Yield es recomendable en casos en los cuáles
+necesitemos optimizar el tiempo de ejecución de un programa, y para esto necesitemos
+darle prioridad a un tipo de proceso antes que a otro (algo así como lo que se espera
+de un semaforo de Djikstra), mientras que un wait se usa cuando necesitemos que algo
+ocurra antes de seguir la ejecución del thread, pero no queramos por cualquier
+motivo que dicho thread siga costando tiempo de ejecución.
 
 ### Explique cómo afecta el desempeño de un servidor web
 - Instalarle un mejor procesador
@@ -42,9 +53,23 @@ Los monitores son utilizados para controlar el acceso a una sección crítica de
 por eventos es, en esencia, una herramienta de flujo de control que coordina la llegada de varios threads a un
 punto en específico. Como podemos ver por estas descripciones, en general no son requeridas por programas que
 manejen áreas de datos separadas, sin embargo, como muchas de las cosas dentro del mundo de la programación,
-es una respuesta situacional.
+es una respuesta situacional. Por ejemplo, si queremos hacer que se despliegue un
+mensaje justo después de terminada la ejecución de threads, una sincronización puede ser buena idea.
+De esta misma forma, un monitor puede servir en caso de que la información extraida de dichas
+zonas de datos vayan a converger.
 
 ### Considere una aplicación bancaria de consignaciones y retiros. Cada operación, recibe como parámetro el monto de la consignación o retiro y el número de cuenta sobre el que se debe hacer la operación. Suponga que una pareja comparte una cuenta bancaria. Si uno de ellos hace un retiro y el otro una consignación, ¿se puede presentar algún problema? Si su respuesta es afirmativa, ¿cómo lo solucionaría? Si su respuesta es negativa, justifique.
 
+En este caso, deberíamos considerar que el monto de la cuenta bancaria, en caso de
+que esta sea una aplicación multithread (como esta casi que implicito en el
+enunciado) sería una sección crítica del código, y permitirles acceder al archivo
+a la vez puede potencialmente crear incoherencias en el valor del monto. Yo considero
+que hacer el método que actualiza el monto bancario un método sincronizado, podría solucionar
+el problema.
 
 ### ¿Cuál es la ganancia de usar un pool de threads para implementar un servidor concurrente con respecto a usar simplemente una aplicación monothread para cada conexión? 
+
+La principal ganancia a la hora de considerar esto, es el hecho de poder atender varias solicitudes
+al tiempo, lo cual nos permite ampliar la capacidad de atención que tiene el
+servidor. Respondería mas rápido a las soluciones individuales de los problemas porque no debería hacer
+secuencialmente todas las operaciones.
