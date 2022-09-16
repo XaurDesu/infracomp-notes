@@ -34,7 +34,20 @@ public class Main {
                 if(in.get(0).getClass().isInstance(l)) {
                     //añadir lectores
                 } else if (in.get(0).getClass().isInstance(e)) {
-                    //añadir escritores
+
+                    int lectores = 0;
+                    int redactores = 0;
+                    for (int i = 0; i< in.toArray().length; i++) {
+                        if(in.get(0).getClass().isInstance(e)) {
+                            redactores ++;
+                        }
+                        else {
+                            lectores ++;
+                        }
+                    }
+                    if(lectores > redactores) {
+                        //añadir escritores
+                    }
                 }
             }
 
